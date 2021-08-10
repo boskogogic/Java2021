@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 
 /**	
  * 
@@ -12,14 +12,19 @@
 public class Automobil extends Vozilo{
 
 	private int brojVrata;
+	//private Mapa mapa;
 	
 	public Automobil() {
 		
 	}
 	
-	public Automobil(String marka, String model, int godiste, int brojVrata) {
-		super(marka,model,godiste);
+	public Automobil(String marka, String model, int godiste, int brojVrata/*, Object[][] mapa*/) {
+		super(marka,model,godiste/*,mapa*/);
 		this.brojVrata = brojVrata;
+	}
+	
+	public void setMapa(Object[][] mapa) {
+		super.setMapa(mapa);
 	}
 	
 	public int getBrojVrata() {
@@ -28,6 +33,18 @@ public class Automobil extends Vozilo{
 	
 	public void setBrojVrata(int brojVrata) {
 		this.brojVrata = brojVrata;
+	}
+	
+	public void postaviMapu(Mapa mapa) {
+		super.postaviMapu(mapa);
+	}
+	
+	public Object vratiPolje(int indexI, int indexJ) {
+		return super.vratiVrijednostPolja(indexI, indexJ);
+	}
+	
+	public void setKompozicije(ArrayList<Kompozicija> kompozicije) {
+		super.setKompozicije(kompozicije);
 	}
 	
 	@Override

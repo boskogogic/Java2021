@@ -2,13 +2,30 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-
 public class Mapa extends Thread{
 	private Object[][] mapa;
 	private ZeljeznickaStanica[] stanice;
 	private ArrayList<Kompozicija> kompozicije = new ArrayList<Kompozicija>();
-	private static int i=0;
+	private static int brojKompozicija=0;
+	private ArrayList<Vozilo> vozila = new ArrayList<Vozilo>();
+	private static int brojVozila=0;
 	private static Boolean resurs = true;
+	private static long uspavaj = 0;
+	private boolean[] signali = new boolean[kompozicije.size()];//signali za auta
+	
+	/* Promjenljive potrebne za signalizaciju autima. 
+	private boolean kretanjeAB = false;
+	private boolean kretanjeBA = false;
+	private boolean kretanjeBC = false;
+	private boolean kretanjeCB = false;
+	private boolean kretanjeCE = false;
+	private boolean kretanjeEC = false;
+	private boolean proslaPruzniPrelaz1L = false;
+	private boolean proslaPruzniPrelaz1D = false;
+	private boolean proslaPruzniPrelaz2L = false;
+	private boolean proslaPruzniPrelaz2D = false;
+	private boolean proslaPruzniPrelaz3L = false;
+	private boolean proslaPruzniPrelaz3d = false; */
 	
 	public Mapa() {
 		
@@ -31,25 +48,149 @@ public class Mapa extends Thread{
 		this.resurs = resurs;
 	}
 	
- 	
-	public void setKompozicije(ArrayList<Kompozicija> kompozicije) {
+	public void setKompozicije(ArrayList<Kompozicija> kompozvicije) {
 		this.kompozicije = kompozicije;
 	}
 	
+	public ArrayList<Vozilo> getVozila() {
+		return vozila;
+	}
+
+	public void setVozila(ArrayList<Vozilo> vozila) {
+		this.vozila = vozila;
+	}
+
 	public Boolean getResurs() {
 		return resurs;
 	}
 	
-	public void dodajUKolekciju(Kompozicija kompozicija) { 
-		kompozicije.add(kompozicija);
-		System.out.println("Kompozicija " + kompozicije.get(i).getID());
-		System.out.println("Kompozicija " + kompozicije.get(i).getID() + " imaju oznacene stanice " + kompozicije.get(i).vratiStanicu(0) + " " + kompozicije.get(i).vratiStanicu(1));
-		System.out.println("Kompozicija ima velicinu : " + kompozicije.size());
-		i++;
-		
+	public int getBrojKompozicija() {
+		return kompozicije.size();
+	}
+	/*public void setKretanjeAB(boolean kretanjeAB) {
+		this.kretanjeAB = kretanjeAB;
+	}
+
+	public boolean getKretanjeBA() {
+		return kretanjeBA;
+	}
+
+	public void setKretanjeBA(boolean kretanjeBA) {
+		this.kretanjeBA = kretanjeBA;
+	}
+
+	public boolean getKretanjeBC() {
+		return kretanjeBC;
+	}
+
+	public void setKretanjeBC(boolean kretanjeBC) {
+		this.kretanjeBC = kretanjeBC;
+	}
+
+	public boolean getKretanjeCB() {
+		return kretanjeCB;
+	}
+
+	public void setKretanjeCB(boolean kretanjeCB) {
+		this.kretanjeCB = kretanjeCB;
+	}
+
+	public boolean getKretanjeCE() {
+		return kretanjeCE;
+	}
+
+	public void setKretanjeCE(boolean kretanjeCE) {
+		this.kretanjeCE = kretanjeCE;
+	}
+
+	public boolean getKretanjeEC() {
+		return kretanjeEC;
+	}
+
+	public void setKretanjeEC(boolean kretanjeEC) {
+		this.kretanjeEC = kretanjeEC;
+	}
+
+	public boolean getProslaPruzniPrelaz1L() {
+		return proslaPruzniPrelaz1L;
+	}
+
+	public void setProslaPruzniPrelaz1L(boolean proslaPruzniPrelaz1L) {
+		this.proslaPruzniPrelaz1L = proslaPruzniPrelaz1L;
+	}
+
+	public boolean getProslaPruzniPrelaz1D() {
+		return proslaPruzniPrelaz1D;
+	}
+
+	public void setProslaPruzniPrelaz1D(boolean proslaPruzniPrelaz1D) {
+		this.proslaPruzniPrelaz1D = proslaPruzniPrelaz1D;
+	}
+
+	public boolean getProslaPruzniPrelaz2L() {
+		return proslaPruzniPrelaz2L;
+	}
+
+	public void setProslaPruzniPrelaz2L(boolean proslaPruzniPrelaz2L) {
+		this.proslaPruzniPrelaz2L = proslaPruzniPrelaz2L;
+	}
+
+	public boolean getProslaPruzniPrelaz2D() {
+		return proslaPruzniPrelaz2D;
+	}
+
+	public void setProslaPruzniPrelaz2D(boolean proslaPruzniPrelaz2D) {
+		this.proslaPruzniPrelaz2D = proslaPruzniPrelaz2D;
+	}
+
+	public boolean getProslaPruzniPrelaz3L() {
+		return proslaPruzniPrelaz3L;
+	}
+
+	public void setProslaPruzniPrelaz3L(boolean proslaPruzniPrelaz3L) {
+		this.proslaPruzniPrelaz3L = proslaPruzniPrelaz3L;
+	}
+
+	public boolean getProslaPruzniPrelaz3d() {
+		return proslaPruzniPrelaz3d;
+	}
+
+	public void setProslaPruzniPrelaz3d(boolean proslaPruzniPrelaz3d) {
+		this.proslaPruzniPrelaz3d = proslaPruzniPrelaz3d;
+	} */
+	
+	public long getUspavaj() {
+		return uspavaj;
+	}
+	
+	public Kompozicija pristupiKompoziciji(int index) {
+		return kompozicije.get(index);
 	}
 	
 	
+	public Vozilo pristupiVozilu(int index) {
+		return vozila.get(index);
+	}
+	
+	public void dodajUKolekciju(Kompozicija kompozicija) { 
+		kompozicije.add(kompozicija);
+		System.out.println("Kompozicija " + kompozicije.get(brojKompozicija).getID());
+		System.out.println("Kompozicija " + kompozicije.get(brojKompozicija).getID() + " imaju oznacene stanice " + kompozicije.get(brojKompozicija).vratiStanicu(0) + " " + kompozicije.get(brojKompozicija).vratiStanicu(1));
+		System.out.println("Kompozicija ima velicinu : " + kompozicije.size());
+		brojKompozicija++;
+		
+	}
+	
+	public void dodajUKolekcijuVozilo(Vozilo vozilo) {
+		vozila.add(vozilo);
+		brojVozila++;
+	}
+	
+	public long uspavaj() {
+		uspavaj+=3000;
+		System.out.println("Koliko je vrijednost promjenljive uspavaj  " + uspavaj);
+		return uspavaj;
+	}
 
 	
 	public void provjeraIteratora() {
@@ -62,6 +203,14 @@ public class Mapa extends Thread{
 		for(int brojac = 0 ; brojac < kompozicije.size(); brojac++) {
 			System.out.println("BREAK POINT DA LI JE BROJAC I FOR BOLJA OPCIJA ? " + kompozicije.get(brojac).getID());
 		}
+	}
+	
+	public void postaviPolje(int indexI, int indexJ, Object o) {
+		this.mapa[indexI][indexJ] = o;
+	}
+	
+	public Object vratiVrijednostPolja(int i, int j) {
+		return mapa[i][j];
 	}
 	
 	/**	Metode za inicijalizaciju stanica, pruga, pruznih prelaza i puteva. */
@@ -610,7 +759,7 @@ public class Mapa extends Thread{
 			//provjerava da li odredjena kompozicija ima isti smjer kao i ona koja treba da krene na prugu
 			for(int brojac = 0 ; brojac < kompozicije.size(); brojac++) {
 				if(kompozicije.get(k).getID().equals(kompozicija.getID())) {
-					if( ("A".equals(kompozicija.vratiStanicu(0))) && ("B".equals(kompozicija.vratiStanicu(1))) ) {
+					if( ("A".equals(kompozicija.vratiStanicu(0))) && ("B".equals(kompozicija.vratiStanicu(1))) && kompozicije.get(k).getKretanjeAB() == true) {
 						return true;
 					}
 				}
@@ -622,14 +771,14 @@ public class Mapa extends Thread{
 		for(int i = 26; i > 21; i--) {
 			if( (mapa[i][2] instanceof Kompozicija) ) {
 				Kompozicija kompozicija = (Kompozicija)mapa[i][2];
-				System.out.println("BREAK POINT PROVJERA DIONICE AB : DA LI UDJE U for i if GDJE BI TREBAO UC" ); // DA UDJE - ZNACI PREPOZNA GA NA MAPI
+				//System.out.println("BREAK POINT PROVJERA SMJERA AB : DA LI UDJE U for i if GDJE BI TREBAO UC" ); // DA UDJE - ZNACI PREPOZNA GA NA MAPI -> Ovde nastane problem
 				int k=0;
 				//provjerava da li odredjena kompozicija ima isti smjer kao i ona koja treba da krene na prugu
 				for(int brojac = 0 ; brojac < kompozicije.size(); brojac++) {
 					String id = kompozicije.get(k).getID();
 					//ne udje - zastO ? 
 					if(id.equals(kompozicija.getID())) {
-						if( ("A".equals(kompozicija.vratiStanicu(0))) && ("B".equals(kompozicija.vratiStanicu(1))) ) {
+						if( ("A".equals(kompozicija.vratiStanicu(0))) && ("B".equals(kompozicija.vratiStanicu(1))) && kompozicije.get(k).getKretanjeAB() == true) {
 							return true;
 						}
 					}
@@ -645,9 +794,9 @@ public class Mapa extends Thread{
 			//provjerava da li odredjena kompozicija ima isti smjer kao i ona koja treba da krene na prugu
 			for(int brojac = 0 ; brojac < kompozicije.size(); brojac++) {
 				String id = kompozicije.get(k).getID();
-				System.out.println("BREAK POINT PROVJERA DIONICE AB : DA LI UDJE U WHILE KOD ITERATORA " );
+				System.out.println("BREAK POINT PROVJERA SMJERA AB : DA LI UDJE U WHILE KOD ITERATORA " );
 				if(id.equals(kompozicija.getID())) {
-					System.out.println("BREAK POINT PROVJERA DIONICE AB : DA LI SU ID JEDNAKI ? " + kompozicije.get(k).getID() + " " + kompozicija.getID());
+					System.out.println("BREAK POINT PROVJERA SMJERA AB : DA LI SU ID JEDNAKI ? " + kompozicije.get(k).getID() + " " + kompozicija.getID());
 					if( ("A".equals(kompozicija.vratiStanicu(0))) && ("B".equals(kompozicija.vratiStanicu(1))) ) {
 						return true;
 					}
@@ -662,7 +811,7 @@ public class Mapa extends Thread{
 			//provjerava da li odredjena kompozicija ima isti smjer kao i ona koja treba da krene na prugu
 			for(int brojac = 0 ; brojac < kompozicije.size(); brojac++) {
 				String id = kompozicije.get(k).getID();
-				System.out.println("BREAK POINT PROVJERA DIONICE AB : DA LI UDJE U WHILE KOD ITERATORA " );
+				System.out.println("BREAK POINT PROVJERA SMJERA AB : DA LI UDJE U WHILE KOD ITERATORA " );
 				if(id.equals(kompozicija.getID())) {
 					if( ("A".equals(kompozicija.vratiStanicu(0))) && ("B".equals(kompozicija.vratiStanicu(1))) ) {
 						return true;
@@ -680,7 +829,7 @@ public class Mapa extends Thread{
 				//provjerava da li odredjena kompozicija ima isti smjer kao i ona koja treba da krene na prugu
 				for(int brojac = 0 ; brojac < kompozicije.size(); brojac++) {
 					String id = kompozicije.get(k).getID();
-					System.out.println("BREAK POINT PROVJERA DIONICE AB : DA LI UDJE U WHILE KOD ITERATORA " );
+					System.out.println("BREAK POINT PROVJERA SMJERA AB : DA LI UDJE U WHILE KOD ITERATORA " );
 					if(id.equals(kompozicija.getID())) {
 						if( ("A".equals(kompozicija.vratiStanicu(0))) && ("B".equals(kompozicija.vratiStanicu(1))) ) {
 							return true;
@@ -699,7 +848,7 @@ public class Mapa extends Thread{
 				//provjerava da li odredjena kompozicija ima isti smjer kao i ona koja treba da krene na prugu
 				for(int brojac = 0 ; brojac < kompozicije.size(); brojac++) {
 					String id = kompozicije.get(k).getID();
-					System.out.println("BREAK POINT PROVJERA DIONICE AB : DA LI UDJE U WHILE KOD ITERATORA " );
+					System.out.println("BREAK POINT PROVJERA SMJERA AB : DA LI UDJE U WHILE KOD ITERATORA " );
 					if(id.equals(kompozicija.getID())) {
 						if( ("A".equals(kompozicija.vratiStanicu(0))) && ("B".equals(kompozicija.vratiStanicu(1))) ) {
 							return true;
@@ -718,7 +867,7 @@ public class Mapa extends Thread{
 				//provjerava da li odredjena kompozicija ima isti smjer kao i ona koja treba da krene na prugu
 				for(int brojac = 0 ; brojac < kompozicije.size(); brojac++) {
 					String id = kompozicije.get(k).getID();
-					System.out.println("BREAK POINT PROVJERA DIONICE AB : DA LI UDJE U WHILE KOD ITERATORA " );
+					System.out.println("BREAK POINT PROVJERA SMJERA AB : DA LI UDJE U WHILE KOD ITERATORA " );
 					if(id.equals(kompozicija.getID())) {
 						if( ("A".equals(kompozicija.vratiStanicu(0))) && ("B".equals(kompozicija.vratiStanicu(1))) ) {
 							return true;
@@ -2146,11 +2295,68 @@ public class Mapa extends Thread{
 		return false;
 	}
 	
+	public synchronized boolean voziloProvjeriDaLiImaVoziloIspredPU1(int indexI, int indexJ) {
+		if( (voziloProvjeriDesno(indexI, indexJ)) ) {
+			return true; //ako je provjera za iskaz !(false) znaci da je nesto na putu
+		}
+		
+		if( (voziloProvjeriDole(indexI, indexJ)) ) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public boolean voziloProvjeriDaLiJePruzniPrelaz(int trenutnoI, int trenutnoJ) {
 		if(("PP1L".equals(mapa[trenutnoI][trenutnoJ+1])) || ("PP1D".equals(mapa[trenutnoI][trenutnoJ-1])) || ("PP2L".equals(mapa[trenutnoI+1][trenutnoJ])) || ("PP2D".equals(mapa[trenutnoI-1][trenutnoJ])) || ("PP3L".equals(mapa[trenutnoI][trenutnoJ-1])) || ("PP3D".equals(mapa[trenutnoI][trenutnoJ+1]))) {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean voziloProvjeriDaLiJePruzniPrelaz1Zauzet() {
+		boolean tacno = true;
+		boolean netacno = false;
+		boolean[] signali = new boolean[kompozicije.size()];
+		System.out.println("Usao sam u provjeru da li je pruzni prelaz zauzet");
+		System.out.println("Koliko ima kompozicija ? " + kompozicije.size());
+		for(int brojac = 0; brojac < kompozicije.size(); brojac++) {
+			System.out.println("Kompozicija : " + kompozicije.get(brojac).getID());
+			if( (netacno == kompozicije.get(brojac).getKretanjeAB()) || (tacno == kompozicije.get(brojac).getKretanjeAB() && tacno == kompozicije.get(brojac).getProslaPruzniPrelaz1L() && tacno == kompozicije.get(brojac).getProslaPruzniPrelaz1D()) ) {
+				System.out.println("Istinitost  " + brojac + " kompozicije je : " + kompozicije.get(brojac).getKretanjeAB() + " istinitost PP1D je: " + kompozicije.get(brojac).getProslaPruzniPrelaz1D() + " istinitost PP1L je " + kompozicije.get(brojac).getProslaPruzniPrelaz1L() );
+				signali[brojac] = true;
+			}
+			System.out.println("Istinitost  " + brojac + " kompozicije je : " + kompozicije.get(brojac).getKretanjeAB() + " istinitost PP1D je: " + kompozicije.get(brojac).getProslaPruzniPrelaz1D() + " istinitost PP1L je " + kompozicije.get(brojac).getProslaPruzniPrelaz1L() );
+
+		}
+		
+		int brojac = 0;
+		int brojTrueVrijednosti = 0;
+		while(brojac < kompozicije.size()) {
+			if(signali[brojac] == true) {
+				brojTrueVrijednosti++; //ako je svaka kompozicija postavila true za pruzni prelaz, broj ce biti = broju kompozicija
+			}
+			brojac++;
+		}
+		
+		if(brojTrueVrijednosti == kompozicije.size()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
+	
+	public void signalizirajDaJePruzniPrelazSlobodan(int indexKompozicije, boolean signal) {
+		this.signali[indexKompozicije] = signal;
+		
+	}
+	
+	
+	public boolean provjeriSignale(int index) {
+		return signali[index];
 	}
 	
 	/**	Metoda za zauzimanje pozicije na mapi - vozilo.*/
@@ -2162,29 +2368,70 @@ public class Mapa extends Thread{
 		mapa[i][j] = vozilo;
 	}
 	
+	public boolean voziloLijevaTrakaPut1ProvjeriDaLiJeKraj(int i, int j) {
+		if( i==29 && j==7) {
+			return true;
+		}
+		return false;
+	}
+	
 	/**	Metoda za 'oslobadjanje' pozicije na mapi - vozilo. */
 	public synchronized void voziloOslobodiPozicijuLijevaTrakaPut1(int i, int j) {
-		mapa[i][j] = "PP1L";
+		if(i == 21 && j==2) {
+			mapa[i][j] = "PP1L"; //inicijalizacija pruznog prelaza
+			System.out.println("OSLOBODJENA POZICIJA : " + mapa[i][j] + " " + i + " " + j);
+		}
+		else {
+			mapa[i][j] = "PU1L";
+			System.out.println("OSLOBODJENA POZICIJA : " + mapa[i][j] + " " + i + " " + j);
+
+	
+		}
 	}
 	
 	public synchronized void voziloOslobodiPozicijuLijevaTrakaPut2(int i, int j) {
-		mapa[i][j] = "PP2L";
-	}
+		if(i == 6 && j==13) {
+			mapa[i][j] = "PP2L"; //inicijalizacija pruznog prelaza
+		}
+		else {
+			mapa[i][j] = "PU2L";
+	
+		}	}
 	
 	public synchronized void voziloOslobodiPozicijuLijevaTrakaPut3(int i, int j) {
-		mapa[i][j] = "PP3L";
-	}
+		if(i == 20 && j==26) {
+			mapa[i][j] = "PP3L"; //inicijalizacija pruznog prelaza
+		}
+		else {
+			mapa[i][j] = "PU1L";
+	
+		}	}
 	
 	public synchronized void voziloOslobodiPozicijuDesnaTrakaPut1(int i, int j) {
-		mapa[i][j] = "PP1D";
-	}
+		if(i == 20 && j==2) {
+			mapa[i][j] = "PP1D"; //inicijalizacija pruznog prelaza
+		}
+		else {
+			mapa[i][j] = "PU1D";
+	
+		}	}
 	
 	public synchronized void voziloOslobodiPozicijuDesnaTrakaPut2(int i, int j) {
-		mapa[i][j] = "PP2D";
-	}
+		if(i == 6 && j==14) {
+			mapa[i][j] = "PP2D"; //inicijalizacija pruznog prelaza
+		}
+		else {
+			mapa[i][j] = "PU2D";
+	
+		}	}
 	
 	public synchronized void voziloOslobodiPozicijuDesnaTrakaPut3(int i, int j) {
-		mapa[i][j] = "PP3D";
-	}
+		if(i == 21 && j==26) {
+			mapa[i][j] = "PP3D"; //inicijalizacija pruznog prelaza
+		}
+		else {
+			mapa[i][j] = "PU3D";
+	
+		}	}
 }
 
